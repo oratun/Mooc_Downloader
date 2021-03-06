@@ -13,14 +13,17 @@ __all__ = [
     'RequestFailed', 'request_get', 'request_post', 'request_head', 'request_check'
 ]
 
-headers = ("User-Agent","Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36")  #这里模拟浏览器  
-opener = request.build_opener()  
+headers = ("User-Agent",
+           "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36")  # 这里模拟浏览器
+opener = request.build_opener()
 opener.addheaders = [headers]
 request.install_opener(opener)
 setdefaulttimeout(TIMEOUT)
 
+
 class RequestFailed(Exception):
     pass
+
 
 def request_decorate(count=3):
     def decorate(func):
@@ -38,8 +41,11 @@ def request_decorate(count=3):
                 except (timeout):
                     break
             raise RequestFailed("request failed")
+
         return wrap_func
+
     return decorate
+
 
 @request_decorate()
 def request_get(url, decoding='utf8'):
@@ -49,6 +55,7 @@ def request_get(url, decoding='utf8'):
     text = response.read().decode(decoding)
     response.close()
     return text
+
 
 @request_decorate()
 def request_post(url, data, decoding='utf8'):
@@ -60,18 +67,20 @@ def request_post(url, data, decoding='utf8'):
     response.close()
     return text
 
+
 @request_decorate()
 def request_head(url):
     '''head请求'''
     req = request.Request(url=url);
     response = request.urlopen(req, timeout=TIMEOUT)
-    header =  dict(response.getheaders())
+    header = dict(response.getheaders())
     response.close()
     return header
+
 
 @request_decorate(1)
 def request_check(url):
     '''检查url是否可以访问'''
     req = request.Request(url=url);
-    response = request.urlopen(req, timeout=TIMEOUT//10)
+    response = request.urlopen(req, timeout=TIMEOUT // 10)
     response.close()

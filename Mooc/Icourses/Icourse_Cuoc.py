@@ -5,8 +5,10 @@
 import os
 import re
 import json
+
 if __package__ is None:
     import sys
+
     sys.path.append('..\\')
     sys.path.append('..\\..\\')
 from Mooc.Mooc_Config import *
@@ -18,8 +20,10 @@ __all__ = [
     "Icourse_Cuoc"
 ]
 
+
 class Icourse_Cuoc(Icourse_Base):
     url_course = "http://www.icourses.cn/web/sword/portal/videoDetail?courseId="
+
     def __init__(self):
         super().__init__()
 
@@ -38,7 +42,7 @@ class Icourse_Cuoc(Icourse_Base):
         match_title = re.search(r"_courseTitle.*?=.*?'(.*?)';", text)
         match_school = re.search(r'<a +?class *?= *?"teacher-infor-from">(.*?)</a>', text)
         if match_title and match_school:
-            title_name = match_title.group(1)+'__'+match_school.group(1)
+            title_name = match_title.group(1) + '__' + match_school.group(1)
             self.title = winre.sub('', title_name)[:WIN_LENGTH]
 
     def _get_infos(self):
@@ -49,9 +53,10 @@ class Icourse_Cuoc(Icourse_Base):
         text = request_get(url)
         match_courses = re.search(r'_sourceArrStr *?= *?(\[.*?\]);\s*?var +?_shareUrl', text)
         if match_courses:
-            #!!! except json.decoder.JSONDecodeError
+            # !!! except json.decoder.JSONDecodeError
             courses = json.loads(match_courses.group(1))
-            self.infos = [{'url':course['fullLinkUrl'], 'name':winre.sub('',course['title'])[:WIN_LENGTH]} for course in courses]
+            self.infos = [{'url': course['fullLinkUrl'], 'name': winre.sub('', course['title'])[:WIN_LENGTH]} for course
+                          in courses]
 
     def _download(self):
         print('\n{:^{}s}'.format(self.title, LEN_S))

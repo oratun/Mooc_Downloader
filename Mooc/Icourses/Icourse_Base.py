@@ -5,8 +5,10 @@
 
 import os
 from abc import abstractmethod
+
 if __package__ is None:
     import sys
+
     sys.path.append('../')
 from Mooc.Mooc_Config import *
 from Mooc.Mooc_Base import *
@@ -17,6 +19,7 @@ from Mooc.Mooc_Potplayer import *
 __all__ = [
     "Icourse_Base"
 ]
+
 
 class Icourse_Base(Mooc_Base):
     potplayer = Mooc_Potplayer()
@@ -59,14 +62,14 @@ class Icourse_Base(Mooc_Base):
 
     @classmethod
     def download_video_list(cls, dirpath, mp4list, prefix=''):
-        for cnt, videos in enumerate(mp4list,1):
+        for cnt, videos in enumerate(mp4list, 1):
             mp4_url, mp4_name = videos
-            mp4_name = winre.sub('', '['+prefix+str(cnt)+']--'+mp4_name).rstrip('.mp4')[:WIN_LENGTH]
+            mp4_name = winre.sub('', '[' + prefix + str(cnt) + ']--' + mp4_name).rstrip('.mp4')[:WIN_LENGTH]
             cls.download_video(video_url=mp4_url, video_name=mp4_name, video_dir=dirpath)
 
     @classmethod
     def download_pdf_list(cls, dirpath, pdflist, prefix=''):
-        for cnt, pdfs in enumerate(pdflist,1):
+        for cnt, pdfs in enumerate(pdflist, 1):
             pdf_url, pdf_name = pdfs
-            pdf_name = winre.sub('', '('+prefix+str(cnt)+')--'+pdf_name).rstrip('.pdf')[:WIN_LENGTH]
+            pdf_name = winre.sub('', '(' + prefix + str(cnt) + ')--' + pdf_name).rstrip('.pdf')[:WIN_LENGTH]
             cls.download_pdf(pdf_url, pdf_name, dirpath)

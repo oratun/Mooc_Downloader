@@ -2,7 +2,6 @@
     Icourse 模块包的配置文件
 '''
 
-
 COURSENAME = '{1}--课程'
 PAPERNAME = '{2}--试卷'
 SOURCENAME = '{3}--资源'
